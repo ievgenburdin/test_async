@@ -19,8 +19,10 @@ def make_request():
 
 
 def do_request_forever():
-    while True:
+    i = 1
+    while i > 0:
         make_request()
+        i -= 1
 
 
 if __name__ == "__main__":
