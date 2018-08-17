@@ -19,10 +19,13 @@ def make_request():
 
 
 def do_request_forever():
+    # i = 1
+    # while i > 0:
+    #     make_request()
+    #     i -= 1\
     i = 1
-    while i > 0:
+    while i:
         make_request()
-        i -= 1
 
 
 if __name__ == "__main__":

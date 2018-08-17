@@ -42,6 +42,7 @@ class SocketServer:
 
     @staticmethod
     def do_some_logic(data):
+        # some_long_process()
         if data == b'I need your clothes, boots and a motorcycle.':
             data = b'Sorry. You are not terminator.'
         else:
@@ -78,16 +79,16 @@ class SocketServer:
                         del self.message_queues[s]
 
             for s in writable:
-                print(len(self.inputs), len(self.outputs), len(self.inputs))
                 try:
-                    next_msg = self.message_queues.get(s)
-                    if next_msg:
-                        data = next_msg.get_nowait()
-                    print('sending "%s"' % data)
+                    next_msg = self.message_queues[s].get_nowait()
+                    print('sending "%s"' % next_msg)
+                except KeyError:
+                    continue
                 except queue.Empty:
                     self.outputs.remove(s)
                 else:
-                    s.sendall(data)
+                    print("sendall data;", next_msg, len(next_msg))
+                    s.sendall(next_msg)
 
             for s in exceptional:
                 self.inputs.remove(s)
@@ -100,5 +101,4 @@ class SocketServer:
 if __name__ == "__main__":
     app = SocketServer()
     app.run()
-
 
